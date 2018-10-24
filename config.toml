@@ -1,0 +1,77 @@
+baseurl = "https://example.com/"
+title = "Piping Hot Data"
+theme = "ghostwriter"
+languageCode = "en-us"
+copyright = "Shannon Pileggi"
+disqusShortname = "XXX"
+googleAnalytics = "XXX"
+
+[Privacy]
+
+[Privacy.disqus]
+    disable = true
+
+[Privacy.googleAnalytics]
+    anonymizeIP = true
+    respectDoNotTrack = true
+    useSessionStorage = false
+
+[Author]
+    name = "Shannon Pileggi"
+    profile = "https://google.com/+XXX"
+
+[Taxonomies]
+    tag = "tags"
+
+[Params]
+    intro = true
+    headline = "Piping Hot Data"
+    description = "Data science demos, discoveries, and deliberations."
+    github = "https://github.com/shannonpileggi"
+    # gitlab = "https://gitlab.com/XXX"
+    linkedin = "https://www.linkedin.com/in/shannon-m-pileggi/"
+    # gplus = "https://google.com/+XXX"
+    twitter = "https://twitter.com/PipingHotData"
+    # stackoverflow = "https://stackoverflow.com/users/XXX/YYY"
+    email = "shannon@pipinghotdata.com"
+    opengraph = true
+    shareTwitter = true
+    shareFacebook = true
+    shareGooglePlus = false
+    shareLinkedIn = true
+    dateFormat = "Mon, Jan 2, 2006"
+    highlightJsUrl = ""
+    highlightJsLocalUrl = ""
+    exponeaJsUrl = ""
+    exponeaTarget = ""
+    exponeaToken = ""
+    exponeaTrackVisits = false
+#    highlightjs = "color-brewer"
+#    highlightjs_extra_languages = ["r"]
+
+[Permalinks]
+    post = "/:year/:month/:day/:filename/"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 2
+    
+[[menu.main]]
+    name = "Contact"
+    url = "/page/contact/"
+    weight = 3
+
+# [[menu.main]]
+#    name = "Projects"
+#    url = "/project/"
+#    weight = 2
+
+
+
+
