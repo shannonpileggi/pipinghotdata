@@ -50,7 +50,7 @@ googleAnalytics = "XXX"
 #    highlightjs_extra_languages = ["r"]
 
 [Permalinks]
-    post = "/:year/:month/:day/:filename/"
+    post = "/:year/:month/:day/:slug/"
 
 [[menu.main]]
     name = "Blog"
