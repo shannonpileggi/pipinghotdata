@@ -1,4 +1,4 @@
-baseurl = "https://example.com/"
+baseurl = "https://flamboyant-mccarthy-854a9b.netlify.com/"
 title = "Piping Hot Data"
 theme = "ghostwriter"
 languageCode = "en-us"
@@ -40,14 +40,14 @@ googleAnalytics = "XXX"
     shareGooglePlus = false
     shareLinkedIn = true
     dateFormat = "Mon, Jan 2, 2006"
-    highlightJsUrl = ""
+    highlightJsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"
     highlightJsLocalUrl = ""
     exponeaJsUrl = ""
     exponeaTarget = ""
     exponeaToken = ""
     exponeaTrackVisits = false
-#    highlightjs = "color-brewer"
-#    highlightjs_extra_languages = ["r"]
+    highlightjs = "color-brewer"
+    highlightjs_extra_languages = ["r"]
 
 [Permalinks]
     post = "/:year/:month/:day/:slug/"
