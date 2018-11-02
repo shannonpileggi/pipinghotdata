@@ -15,9 +15,9 @@ data_scientist <- statistician %>%
 
 {{< figure src="/images/cirprofile.png" height="100" >}}
 
-**Insert info**
+I’m an enthusiastic data scientist, professional educator, and statistical consultant with over ten years of collaborating on data analysis with diverse partners in tech, public health, and clinical research.  My previous work experiences include propelling research on parasitic diseases at the CDC, expanding the Institute for Quantitative Theory and Methods at Emory University, and instructing advanced programming and modeling courses at California Polytechnic State University, San Luis Obispo.    
 
-## Personally
+## Personal
 
 {{< figure src="/images/family.jpg" height="200">}}
 
