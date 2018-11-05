@@ -4,7 +4,7 @@ theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "Shannon Pileggi"
 disqusShortname = "XXX"
-googleAnalytics = "XXX"
+googleAnalytics = "UA-128676462-1"
 
 [Privacy]
 
