@@ -26,7 +26,7 @@ googleAnalytics = "XXX"
 [Params]
     intro = true
     headline = "Piping Hot Data"
-    description = "Data science demos, discoveries, and deliberations."
+    description = "Data science demos, discoveries, and deliberations"
     github = "https://github.com/shannonpileggi"
     # gitlab = "https://gitlab.com/XXX"
     linkedin = "https://www.linkedin.com/in/shannon-m-pileggi/"

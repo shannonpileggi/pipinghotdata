@@ -1,7 +1,7 @@
 ---
 title: "What's in a name?"
 author: "Shannon Pileggi"
-date: 2018-11-2
+date: 2018-11-05
 categories: ["R"]
 tags: ["blogs", "piping", "tidyverse", "hot data"]
 ---
@@ -20,7 +20,6 @@ tags: ["blogs", "piping", "tidyverse", "hot data"]
 <p>In just 4 short years, the pipe and its friends in the <a href="https://www.tidyverse.org/">tidyverse</a> have revolutionized how we code in R, to the point that you may feel illiterate at conferences if you don’t have some baseline understanding - <em>at first</em>. Because the beauty of the pipe is that it streamlines readibility of R code, such that even if you have never done it, you can still get the gist of what is going on. So much so that believers are proselytizing <a href="http://varianceexplained.org/r/teach-tidyverse/">“Teach the tidyverse to beginners”</a>!</p>
 <p>Let’s lay the pipelines with a quick example using the classic <code>iris</code> data set. To get started, load the <code>tidyverse</code> library and get an overivew of the data.</p>
 <pre class="r"><code>library(tidyverse)
-
 glimpse(iris)</code></pre>
 <pre><code>## Observations: 150
 ## Variables: 5
@@ -29,39 +28,32 @@ glimpse(iris)</code></pre>
 ## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5,...
 ## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1,...
 ## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, s...</code></pre>
-<p>Our simple objective is to compute the mean <code>Sepal.Length</code> for each <code>Species</code> in the data set. There are <em>many</em> ways to accomplish this without the tidyverse, but for the sake of side-by-side comparisons, I’ll first demo using tidyverse functions without piping. This is blasphemy. Don’t ever do this.</p>
-<pre class="r"><code>grp_iris &lt;- group_by(iris, Species)
-
-mean_by_species &lt;- summarise(grp_iris, mean = mean(Sepal.Length))
-
-mean_by_species</code></pre>
+<p>Our simple objective is to compute the mean <code>Sepal.Length</code> for each <code>Species</code> in the data set and then arrange the results in descending order. There are <em>many</em> ways to accomplish this without the tidyverse, but for the sake of side-by-side comparisons I’ll demo this using tidyverse functions first without and then with piping.</p>
+<pre class="r"><code>arrange(
+  summarise(
+    group_by(iris, Species), 
+    mean = mean(Sepal.Length)
+  ), 
+  desc(mean)
+)</code></pre>
 <pre><code>## # A tibble: 3 x 2
 ##   Species     mean
 ##   &lt;fct&gt;      &lt;dbl&gt;
-## 1 setosa      5.01
+## 1 virginica   6.59
 ## 2 versicolor  5.94
-## 3 virginica   6.59</code></pre>
-<p>With this method I created an intermediate object (<code>grp_iris</code>) in order to get the final desired result. And it’s not easy to follow how the objects relate: note how you define objects on the left hand side of <code>-&gt;</code> and then leapfrog them over to the right hand side of <code>-&gt;</code>, continuing this sequence in perpetuity for all of your operations. That looks like some plumbing prone to leaks.</p>
-<p>Let’s try the same manipulations utilizing piping.</p>
-<pre class="r"><code>iris %&gt;% glimpse</code></pre>
-<pre><code>## Observations: 150
-## Variables: 5
-## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9,...
-## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1,...
-## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5,...
-## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1,...
-## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, s...</code></pre>
-<pre class="r"><code>mean_by_species &lt;- iris %&gt;% 
-                     group_by(Species) %&gt;% 
-                     summarise(mean = mean(Sepal.Length))
-mean_by_species</code></pre>
+## 3 setosa      5.01</code></pre>
+<p>Without using pipes, we have to read our code <em>inside</em> to <em>out</em> to understand the operations executed. Our <code>iris</code> data set is buring in the middle of the code, and then the operations performed of <code>group_by</code>, <code>summarise</code>, and <code>arrange</code> spring outward from there (reading up from <code>iris</code>). Now let’s try the same manipulations utilizing piping.</p>
+<pre class="r"><code>iris %&gt;% 
+  group_by(Species) %&gt;% 
+  summarise(mean = mean(Sepal.Length)) %&gt;%
+  arrange(desc(mean))</code></pre>
 <pre><code>## # A tibble: 3 x 2
 ##   Species     mean
 ##   &lt;fct&gt;      &lt;dbl&gt;
-## 1 setosa      5.01
+## 1 virginica   6.59
 ## 2 versicolor  5.94
-## 3 virginica   6.59</code></pre>
-<p>Voilá! It’s clear from the left side of the pipe that all manipulations are done on the <code>iris</code> data set, and it’s clear from the right side of the pipe that the series of operations performed are <code>group_by</code> and <code>summarise</code>. Wow, I like the way data flow through those pipes!</p>
+## 3 setosa      5.01</code></pre>
+<p>Voilá! It’s clear from the left side of the pipe that all manipulations are done on the <code>iris</code> data set, and it’s clear from the right side of the pipe that the series of operations performed are <code>group_by</code>, <code>summarise</code>, and <code>arrange</code>. Wow, I like the way data flow through those pipes!</p>
 <p>While the name of this blog gives an nod to the powerful pipe, the pipe isn’t going to permeate every solution to programming challenges. So here is what to expect from <strong><em>Piping Hot Data</em></strong>:</p>
 <ul>
 <li>Demo data science tools and methods.</li>

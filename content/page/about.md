@@ -5,17 +5,9 @@ author = "Shannon Pileggi"
 description = "Statistician -> Educator -> Data Scientist"
 +++
 
-```r
-data_scientist <- statistician %>% 
-                    full_join(educator, by = passion) %>% 
-                    mutate(new_self = update(former_self))
-```
+{{< figure src="/images/cirprofile.png" height="100">}}
 
-## Professional / fun facts
-
-{{< figure src="/images/cirprofile.png" height="100" >}}
-
-I’m an enthusiastic data scientist, professional educator, and statistical consultant with over ten years of collaborating on data analysis with diverse partners in tech, public health, and clinical research.  My previous work experiences include propelling research on parasitic diseases at the CDC, expanding the Institute for Quantitative Theory and Methods at Emory University, and instructing advanced programming and modeling courses at California Polytechnic State University, San Luis Obispo.    
+I’m an enthusiastic data scientist, professional educator, and statistical consultant with over ten years of experience collaborating on data analysis with diverse partners in tech, public health, and clinical research.  My previous work experiences include supporting research on parasitic diseases at the CDC, contributing to curriculum development at the Institute for Quantitative Theory and Methods at Emory University, and instructing advanced programming and modeling courses at California Polytechnic State University, San Luis Obispo.    
 
 ## Personal
 

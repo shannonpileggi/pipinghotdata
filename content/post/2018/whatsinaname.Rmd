@@ -1,7 +1,7 @@
 ---
 title: "What's in a name?"
 author: "Shannon Pileggi"
-date: 2018-11-2
+date: 2018-11-05
 categories: ["R"]
 tags: ["blogs", "piping", "tidyverse", "hot data"]
 ---
@@ -26,34 +26,33 @@ Let's lay the pipelines with a quick example using the classic `iris` data set. 
 
 ```{r message = F, start}
 library(tidyverse)
-
 glimpse(iris)
 ```
 
-Our simple objective is to compute the mean `Sepal.Length` for each `Species` in the data set.  There are *many* ways to accomplish this without the tidyverse, but for the sake of side-by-side comparisons, I'll first demo using tidyverse functions without piping.  This is blasphemy. Don't ever do this.
+Our simple objective is to compute the mean `Sepal.Length` for each `Species` in the data set and then arrange the results in descending order.  There are *many* ways to accomplish this without the tidyverse, but for the sake of side-by-side comparisons I'll demo this using tidyverse functions first without and then with piping.
 
 ```{r, nopipe}
-grp_iris <- group_by(iris, Species)
-
-mean_by_species <- summarise(grp_iris, mean = mean(Sepal.Length))
-
-mean_by_species
+arrange(
+  summarise(
+    group_by(iris, Species), 
+    mean = mean(Sepal.Length)
+  ), 
+  desc(mean)
+)
 ```
 
-With this method I created an intermediate object (`grp_iris`) in order to get the final desired result.  And it's not easy to follow how the objects relate: note how you define objects on the left hand side of `->` and then leapfrog them over to the right hand side of `->`, continuing this sequence in perpetuity for all of your operations.  That looks like some plumbing prone to leaks.
-
-Let's try the same manipulations utilizing piping.
+Without using pipes, we have to read our code _inside_ to _out_ to understand the operations executed.  Our `iris` data set is buring in the middle of the code, and then the operations performed of `group_by`, `summarise`, and `arrange` spring outward from there (reading up from `iris`).  Now let's try the same manipulations utilizing piping.
 
 ```{r, withpipe}
-iris %>% glimpse
 
-mean_by_species <- iris %>% 
-                     group_by(Species) %>% 
-                     summarise(mean = mean(Sepal.Length))
-mean_by_species
+iris %>% 
+  group_by(Species) %>% 
+  summarise(mean = mean(Sepal.Length)) %>%
+  arrange(desc(mean))
+
 ```
 
-Voilá!  It's clear from the left side of the pipe that all manipulations are done on the `iris` data set, and it's clear from the right side of the pipe that the series of operations performed are `group_by` and `summarise`.  Wow, I like the way data flow through those pipes!    
+Voilá!  It's clear from the left side of the pipe that all manipulations are done on the `iris` data set, and it's clear from the right side of the pipe that the series of operations performed are `group_by`, `summarise`, and `arrange`.  Wow, I like the way data flow through those pipes!    
 
 While the name of this blog gives an nod to the powerful pipe, the pipe isn't going to permeate every solution to programming challenges.  So here is what to expect from **_Piping Hot Data_**:
 
