@@ -41,7 +41,7 @@ arrange(
 )
 ```
 
-Without using pipes, we have to read our code _inside_ to _out_ to understand the operations executed.  Our `iris` data set is buring in the middle of the code, and then the operations performed of `group_by`, `summarise`, and `arrange` spring outward from there (reading up from `iris`).  Now let's try the same manipulations utilizing piping.
+Without using pipes, we have to read our code _inside_ to _out_ to understand the operations executed.  Our `iris` data set is buried in the middle of the code, and then the operations performed of `group_by`, `summarise`, and `arrange` spring outward from there (reading up from `iris`).  Now let's try the same manipulations utilizing piping.
 
 ```{r, withpipe}
 
