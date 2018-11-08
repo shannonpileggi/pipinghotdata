@@ -16,7 +16,7 @@ tags: ["blogs", "piping", "tidyverse", "hot data"]
 <blockquote>
 <p><code>%&gt;%</code></p>
 </blockquote>
-<p>The <a href="http://r4ds.had.co.nz/pipes.html">pipe operator</a> simplifies long operations by <a href="(https://www.datacamp.com/community/tutorials/pipe-r-tutorial)">linking multiple functions</a> simultaneously. Although the coding construct of the pipe has been floating around since the 1970’s, the floodgates didn’t open for R until <a href="http://adolfoalvarez.cl/plumbers-chains-and-famous-painters-the-history-of-the-pipe-operator-in-r/">2014</a>. I don’t know the exact date, but I do remember the first time I saw those three characters and the sea of emotions that rained down. Confusion. Curiousity. Excitement.</p>
+<p>The <a href="http://r4ds.had.co.nz/pipes.html">pipe operator</a> simplifies long operations by <a href="https://www.datacamp.com/community/tutorials/pipe-r-tutorial">linking multiple functions</a> simultaneously. Although the coding construct of the pipe has been floating around since the 1970’s, the floodgates didn’t open for R until <a href="http://adolfoalvarez.cl/plumbers-chains-and-famous-painters-the-history-of-the-pipe-operator-in-r/">2014</a>. I don’t know the exact date, but I do remember the first time I saw those three characters and the sea of emotions that rained down. Confusion. Curiousity. Excitement.</p>
 <p>In just 4 short years, the pipe and its friends in the <a href="https://www.tidyverse.org/">tidyverse</a> have revolutionized how we code in R, to the point that you may feel illiterate at conferences if you don’t have some baseline understanding - <em>at first</em>. Because the beauty of the pipe is that it streamlines readibility of R code, such that even if you have never done it, you can still get the gist of what is going on. So much so that believers are proselytizing <a href="http://varianceexplained.org/r/teach-tidyverse/">“Teach the tidyverse to beginners”</a>!</p>
 <p>Let’s lay the pipelines with a quick example using the classic <code>iris</code> data set. To get started, load the <code>tidyverse</code> library and get an overivew of the data.</p>
 <pre class="r"><code>library(tidyverse)
@@ -42,7 +42,7 @@ glimpse(iris)</code></pre>
 ## 1 virginica   6.59
 ## 2 versicolor  5.94
 ## 3 setosa      5.01</code></pre>
-<p>Without using pipes, we have to read our code <em>inside</em> to <em>out</em> to understand the operations executed. Our <code>iris</code> data set is buring in the middle of the code, and then the operations performed of <code>group_by</code>, <code>summarise</code>, and <code>arrange</code> spring outward from there (reading up from <code>iris</code>). Now let’s try the same manipulations utilizing piping.</p>
+<p>Without using pipes, we have to read our code <em>inside</em> to <em>out</em> to understand the operations executed. Our <code>iris</code> data set is buried in the middle of the code, and then the operations performed of <code>group_by</code>, <code>summarise</code>, and <code>arrange</code> spring outward from there (reading up from <code>iris</code>). Now let’s try the same manipulations utilizing piping.</p>
 <pre class="r"><code>iris %&gt;% 
   group_by(Species) %&gt;% 
   summarise(mean = mean(Sepal.Length)) %&gt;%
