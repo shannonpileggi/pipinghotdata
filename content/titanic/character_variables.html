@@ -1,0 +1,50 @@
+---
+title: "Exploring character variables"
+author: "Shannon Pileggi"
+date: 2018-11-08
+categories: ["R"]
+tags: ["Titanic", "kaggle", "character", "exploratory data analysis"]
+---
+
+
+
+<p>To begin with, let’s import the <code>train</code> data set as a <a href="https://r4ds.had.co.nz/tibbles.html">tibble</a> using the <code>read_csv</code> function in the <code>tidyverse</code> package.</p>
+<pre class="r"><code>library(tidyverse)
+train &lt;- read_csv(&quot;train.csv&quot;)</code></pre>
+<p>For a quick view of character variable values, use the <code>glimpse</code> function in combination with <code>select_if</code> and <code>is.character</code>, which allows you to restrict output to character variables only.</p>
+<pre class="r"><code>train %&gt;% 
+  select_if(is.character) %&gt;% 
+  glimpse()</code></pre>
+<pre><code>## Observations: 891
+## Variables: 5
+## $ Name     &lt;chr&gt; &quot;Braund, Mr. Owen Harris&quot;, &quot;Cumings, Mrs. John Bradle...
+## $ Sex      &lt;chr&gt; &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;, &quot;male&quot;,...
+## $ Ticket   &lt;chr&gt; &quot;A/5 21171&quot;, &quot;PC 17599&quot;, &quot;STON/O2. 3101282&quot;, &quot;113803&quot;...
+## $ Cabin    &lt;chr&gt; NA, &quot;C85&quot;, NA, &quot;C123&quot;, NA, NA, &quot;E46&quot;, NA, NA, NA, &quot;G6...
+## $ Embarked &lt;chr&gt; &quot;S&quot;, &quot;C&quot;, &quot;S&quot;, &quot;S&quot;, &quot;S&quot;, &quot;Q&quot;, &quot;S&quot;, &quot;S&quot;, &quot;S&quot;, &quot;C&quot;, &quot;S&quot;...</code></pre>
+<p>Super, we can see 5 character variables that range in complexity. Let’s get a more thorough summary of these variables using the <code>skim</code> function in the <code>skimr</code> library.</p>
+<pre class="r"><code>library(skimr)
+
+train %&gt;% 
+  select_if(is.character) %&gt;% 
+  skim()</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 891 
+##  n variables: 5 
+## 
+## -- Variable type:character ---------------------------------------------------------------
+##  variable missing complete   n min max empty n_unique
+##     Cabin     687      204 891   1  15     0      147
+##  Embarked       2      889 891   1   1     0        3
+##      Name       0      891 891  12  82     0      891
+##       Sex       0      891 891   4   6     0        2
+##    Ticket       0      891 891   3  18     0      681</code></pre>
+<p>Here are some initial thoughts on the variables, listed in order of increasing complexity:</p>
+<ul>
+<li><code>Sex</code> seems pretty clean - no missing values and only 2 unique values. Woohoo!</li>
+<li><code>Embarked</code> only has 3 unique values but has 2 missing values - we might want to look into informed ways to fill in those missing values.</li>
+<li><code>Name</code> has no missing values, but each entry is unique! The character length ranges from 12 to 82 characters.</li>
+<li><code>Ticket</code> has no missing values, but has 681 unique values ranging in length from 3 to 18 characters.</li>
+<li><code>Cabin</code> has 687 missing values and 147 unique values, ranging in length from 1 to 15 characters. If we want to work with this variable, it is going to take some work!</li>
+</ul>
+<p>The bottom line: <code>Embarked</code>, <code>Name</code>, <code>Ticket</code>, and <code>Cabin</code> all require some finesse for added value in modeling.</p>

@@ -1,0 +1,23 @@
+---
+title: "Feature engineering: extracting title from name"
+author: "Shannon Pileggi"
+date: 2018-11-05
+categories: ["R"]
+tags: ["Titanic", "kaggle", "feature engineering", "title"]
+draft: true
+---
+
+```{r, include = F, message = F}
+library(tidyverse)
+train <- read_csv("C:/Users/spileggi/Google Drive/kaggle/titanic/train.csv")
+```
+
+
+# Focus on `Title`
+
+```{r}
+train %>% 
+  select(Name) %>% 
+  head(10)
+```
+

@@ -1,0 +1,30 @@
+---
+title: "Feature engineering: extracting title from name"
+author: "Shannon Pileggi"
+date: 2018-11-05
+categories: ["R"]
+tags: ["Titanic", "kaggle", "feature engineering", "title"]
+draft: true
+---
+
+
+
+<div id="focus-on-title" class="section level1">
+<h1>Focus on <code>Title</code></h1>
+<pre class="r"><code>train %&gt;% 
+  select(Name) %&gt;% 
+  head(10)</code></pre>
+<pre><code>## # A tibble: 10 x 1
+##    Name                                               
+##    &lt;chr&gt;                                              
+##  1 Braund, Mr. Owen Harris                            
+##  2 Cumings, Mrs. John Bradley (Florence Briggs Thayer)
+##  3 Heikkinen, Miss. Laina                             
+##  4 Futrelle, Mrs. Jacques Heath (Lily May Peel)       
+##  5 Allen, Mr. William Henry                           
+##  6 Moran, Mr. James                                   
+##  7 McCarthy, Mr. Timothy J                            
+##  8 Palsson, Master. Gosta Leonard                     
+##  9 Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)  
+## 10 Nasser, Mrs. Nicholas (Adele Achem)</code></pre>
+</div>

@@ -1,0 +1,42 @@
+---
+title: "Exploring character variables"
+author: "Shannon Pileggi"
+date: 2018-11-08
+categories: ["R"]
+tags: ["Titanic", "kaggle", "character", "exploratory data analysis"]
+---
+
+To begin with, let's import the `train` data set as a [tibble](https://r4ds.had.co.nz/tibbles.html) using the `read_csv` function in the `tidyverse` package.
+
+```{r, message = F}
+library(tidyverse)
+train <- read_csv("train.csv")
+```
+
+For a quick view of character variable values, use the `glimpse` function in combination with `select_if` and `is.character`, which allows you to restrict output to character variables only.  
+
+```{r}
+train %>% 
+  select_if(is.character) %>% 
+  glimpse()
+```
+Super, we can see 5 character variables that range in complexity.  Let's get a more thorough summary of these variables using the `skim` function in the `skimr` library.
+
+```{r}
+library(skimr)
+
+train %>% 
+  select_if(is.character) %>% 
+  skim()
+```
+
+Here are some initial thoughts on the variables, listed in order of increasing complexity:
+
+* `Sex` seems pretty clean - no missing values and only 2 unique values.  Woohoo! 
+* `Embarked` only has 3 unique values but has 2 missing values - we might want to look into informed ways to fill in those missing values.
+* `Name` has no missing values, but each entry is unique!  The character length ranges from 12 to 82 characters.
+* `Ticket` has no missing values, but has 681 unique values ranging in length from 3 to 18 characters.
+* `Cabin` has 687 missing values and 147 unique values, ranging in length from 1 to 15 characters.  If we want to work with this variable, it is going to take some work!
+
+
+The bottom line: `Embarked`, `Name`, `Ticket`, and `Cabin` all require some finesse for added value in modeling. 
