@@ -3,14 +3,13 @@ title: "Feature engineering: extracting title from name"
 author: "Shannon Pileggi"
 date: 2018-11-05
 categories: ["R"]
-tags: ["Titanic", "kaggle", "feature engineering", "title"]
+tags: ["Titanic", "kaggle", "feature engineering", "title", "Name", "regular epressions", "character"]
 draft: true
 ---
 
 
 
-<div id="focus-on-title" class="section level1">
-<h1>Focus on <code>Title</code></h1>
+<p>In a previous post, we got an overview of Titanic’s character variables. Now let’s see what we can do with the <code>Name</code> variable; recall, this variable has all unique values! To get started, let’s visually inspect a few values.</p>
 <pre class="r"><code>train %&gt;% 
   select(Name) %&gt;% 
   head(10)</code></pre>
@@ -27,4 +26,83 @@ draft: true
 ##  8 Palsson, Master. Gosta Leonard                     
 ##  9 Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)  
 ## 10 Nasser, Mrs. Nicholas (Adele Achem)</code></pre>
+<p>In this brief print out, each passenger’s title is consistently located between <code>,</code> and <code>.</code>. Luckily, this holds true for all observations! With this consistency, we can somewhat easily extract a title from <code>Name</code>. Depending your field, this operation may be referred to something along the lines of <em>data preparation</em> or <em>feature engineering</em>.</p>
+<p>Parsing character strings requires knowledge of <a href="https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf">regular expressions</a>, which you can think of as a key to unlock string patterns. Here, the string pattern I want to unlock is</p>
+<blockquote>
+<p><code>XXX, YYY. ZZZ</code></p>
+</blockquote>
+<p>but without consistent positioning (i.e., the comma isn’t always in the 4th position). Combining the correct key with the correct function will yield the <code>YYY</code> content. Let’s demo two ways to tackle the challenge utilizing functions from the <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">stringr</a> package, one with simple pattern matching and one with more complex pattern matching.</p>
+<pre class="r"><code>library(stringr)</code></pre>
+<div id="first-effort-with-simple-pattern-matching" class="section level1">
+<h1>First effort, with simple pattern matching</h1>
+<p>ICYMI, the double bracket in <code>train[[&quot;Name&quot;]]</code> is used to <a href="https://www.r-bloggers.com/r-accessors-explained/">extract</a> a named variable vector from a data frame, which has some benefits over the more commonly used dollar sign (i.e., <code>train$Name</code>). Now onward.</p>
+<p>The <code>str_locate</code> function produces the starting and ending position of a specified pattern. If we consider the comma to be a pattern, we can figure out where it is located in each name. Here, the starting and ending value is the same because the comma is only one character.</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_locate(&quot;,&quot;) %&gt;%
+  head()</code></pre>
+<pre><code>##      start end
+## [1,]     7   7
+## [2,]     8   8
+## [3,]    10  10
+## [4,]     9   9
+## [5,]     6   6
+## [6,]     6   6</code></pre>
+<p>Knowing this, we can identify the positions of the comma and the period and then extract the text in between. Some notes here:</p>
+<ul>
+<li><p>Because <code>str_locate</code> function returns a matrix, we use <code>.</code> as a <a href="https://rafalab.github.io/dsbook/summarizing-data-with-dplyr.html#the-dot-operator">placeholder</a> in <code>.[,1]</code> to access the first column of values.</p></li>
+<li><p>Because <code>.</code> is a special character in regular expressions, we use the double backslash in <code>&quot;\\.&quot;</code> to <a href="https://stringr.tidyverse.org/articles/regular-expressions.html#escaping">escape</a> it.</p></li>
+</ul>
+<pre class="r"><code>comma_pos &lt;- 
+  train[[&quot;Name&quot;]] %&gt;% 
+  str_locate(&quot;,&quot;) %&gt;% 
+  .[,1]
+
+period_pos &lt;-
+  train[[&quot;Name&quot;]] %&gt;% 
+  str_locate(&quot;\\.&quot;) %&gt;% 
+  .[,1]</code></pre>
+<p>Now we can use <code>str_sub</code> to extract substrings from the character vector based on their physical position. To exclude the punctuation and white space, we can add two to the comma position and subtract one from the period position to get the <em>title</em> only.</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_sub(comma_pos + 2, period_pos - 1) %&gt;% 
+  head()</code></pre>
+<pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
+<p>Super!</p>
+</div>
+<div id="second-effort-with-more-complex-pattern-matching" class="section level1">
+<h1>Second Effort, with more complex pattern matching</h1>
+<p>The <code>str_match</code> function creates a character matrix for each group matched in the specified pattern. If we return to our original pattern framework, note that it consists of 5 separate elements:</p>
+<blockquote>
+<p><code>XXX, YYY. ZZZ</code></p>
+</blockquote>
+<ol style="list-style-type: decimal">
+<li><code>XXX</code>, (2) <code>,</code>, (3) <code>YYY</code>, (4) <code>.</code>, and (5) <code>ZZZ</code>. With the correct regular expression, <code>str_match</code> returns the complete match in addition to all 5 elements (so a matrix with 6 columns).</li>
+</ol>
+<pre class="r"><code>str_match(&quot;XXX, YYY. ZZZ&quot;, &quot;(.*)(, )(.*)(\\.)(.*)&quot;)</code></pre>
+<pre><code>##      [,1]            [,2]  [,3] [,4]  [,5] [,6]  
+## [1,] &quot;XXX, YYY. ZZZ&quot; &quot;XXX&quot; &quot;, &quot; &quot;YYY&quot; &quot;.&quot;  &quot; ZZZ&quot;</code></pre>
+<p>Let’s break down this regular expression pattern.</p>
+<ul>
+<li>the parentheses <code>()</code> indicate a grouping</li>
+<li>the 2nd grouping <code>(, )</code> only has one modification from the pattern used in the first example - here we include a space after the comma.</li>
+<li>the 4th <code>(\\.)</code> grouping remains unchanged from the first example.</li>
+<li>in the 1st, 3rd, and 5th grouping <code>(.*)</code>
+<ul>
+<li>the period <code>.</code> means <em>any character</em></li>
+<li>the asterisk <code>*</code> means <em>matches at least 0 times</em></li>
+</ul></li>
+</ul>
+<p>To execute this, we’ll grab the 4th column to catch our title.</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_match(&quot;(.*)(, )(.*)(\\.)(.*)&quot;) %&gt;%
+  .[,4] %&gt;% 
+  head()</code></pre>
+<pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
+<p>All right, we got it again!</p>
+<pre class="r"><code>  train %&gt;% mutate(title = str_trim(str_match(train[[&quot;Name&quot;]],
+                                    &quot;(.*)(,)(.*?)(\\.)(.*)&quot;)[,4]))</code></pre>
+<pre class="r"><code>head(gsub(&#39;(.*, )|(\\..*)&#39;, &#39;&#39;, train$Name))</code></pre>
+<pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
+</div>
+<div id="re-classifying-entries" class="section level1">
+<h1>Re-classifying entries</h1>
 </div>

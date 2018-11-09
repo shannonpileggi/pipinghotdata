@@ -38,5 +38,17 @@ Here are some initial thoughts on the variables, listed in order of increasing c
 * `Ticket` has no missing values, but has 681 unique values ranging in length from 3 to 18 characters.
 * `Cabin` has 687 missing values and 147 unique values, ranging in length from 1 to 15 characters.  If we want to work with this variable, it is going to take some work!
 
+For the sake of completeness, let's also examine the unique values of `Sex` and `Embarked`.  The `count` function with the `sort = T` option allows us to quickly view frequency counts in order.
+
+```{r}
+train %>% 
+  count(Sex, sort = T)
+```
+
+```{r}
+train %>% 
+  count(Embarked, sort = T)
+```
+
 
 The bottom line: `Embarked`, `Name`, `Ticket`, and `Cabin` all require some finesse for added value in modeling. 

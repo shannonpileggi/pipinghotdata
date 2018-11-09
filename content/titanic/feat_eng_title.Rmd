@@ -3,7 +3,7 @@ title: "Feature engineering: extracting title from name"
 author: "Shannon Pileggi"
 date: 2018-11-05
 categories: ["R"]
-tags: ["Titanic", "kaggle", "feature engineering", "title"]
+tags: ["Titanic", "kaggle", "feature engineering", "title", "Name", "regular epressions", "character"]
 draft: true
 ---
 
@@ -13,7 +13,7 @@ train <- read_csv("C:/Users/spileggi/Google Drive/kaggle/titanic/train.csv")
 ```
 
 
-# Focus on `Title`
+In a previous post, we got an overview of Titanic's character variables.  Now let's see what we can do with the `Name` variable; recall, this variable has all unique values!  To get started, let's visually inspect a few values.
 
 ```{r}
 train %>% 
@@ -21,3 +21,103 @@ train %>%
   head(10)
 ```
 
+In this brief print out, each passenger's title is consistently located between `,` and `.`.  Luckily, this holds true for all observations!  With this consistency, we can somewhat easily extract a title from `Name`. Depending your field, this operation may be referred to something along the lines of _data preparation_ or _feature engineering_. 
+
+Parsing character strings requires knowledge of [regular expressions](https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf), which you can think of as a key to unlock string patterns.  Here, the string pattern I want to unlock is 
+
+> ` XXX, YYY. ZZZ`
+
+but without consistent positioning (i.e., the comma isn't always in the 4th position).  Combining the correct key with the correct function will yield the `YYY` content.  Let's demo two ways to tackle the challenge utilizing functions from the [stringr](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) package, one with simple pattern matching and one with more complex pattern matching.
+
+```{r}
+library(stringr)
+```
+
+
+# First effort, with simple pattern matching
+
+ICYMI, the double bracket in `train[["Name"]]` is used to [extract](https://www.r-bloggers.com/r-accessors-explained/) a named variable vector from a data frame, which has some benefits over the more commonly used dollar sign (i.e., `train$Name`).  Now onward.
+
+The `str_locate` function produces the starting and ending position of a specified pattern.  If we consider the comma to be a pattern, we can figure out where it is located in each name.  Here, the starting and ending value is the same because the comma is only one character.
+
+```{r}
+train[["Name"]] %>% 
+  str_locate(",") %>%
+  head()
+```
+
+Knowing this, we can identify the positions of the comma and the period and then extract the text in between.  Some notes here:
+
+* Because `str_locate` function returns a matrix, we use `.` as a [placeholder](https://rafalab.github.io/dsbook/summarizing-data-with-dplyr.html#the-dot-operator) in `.[,1]` to access the first column of values.
+
+* Because `.` is a special character in regular expressions, we use the double backslash in `"\\."` to [escape](https://stringr.tidyverse.org/articles/regular-expressions.html#escaping) it.
+
+```{r}
+comma_pos <- 
+  train[["Name"]] %>% 
+  str_locate(",") %>% 
+  .[,1]
+
+period_pos <-
+  train[["Name"]] %>% 
+  str_locate("\\.") %>% 
+  .[,1]
+```
+
+
+Now we can use `str_sub` to extract substrings from the character vector based on their physical position.  To exclude the punctuation and white space, we can add two to the comma position and subtract one from the period position to get the _title_ only.
+
+```{r}
+train[["Name"]] %>% 
+  str_sub(comma_pos + 2, period_pos - 1) %>% 
+  head()
+```
+
+Super!
+
+# Second Effort, with more complex pattern matching
+
+The `str_match` function creates a character matrix for each group matched in the specified pattern.  If we return to our original pattern framework, note that it consists of 5 separate elements:
+
+> `XXX, YYY. ZZZ`
+
+(1) `XXX`, (2) `,`, (3) `YYY`, (4) `.`, and (5) `ZZZ`. With the correct regular expression, `str_match` returns the complete match in addition to all 5 elements (so a matrix with 6 columns).
+
+```{r}
+str_match("XXX, YYY. ZZZ", "(.*)(, )(.*)(\\.)(.*)")
+```
+
+Let's break down this regular expression pattern.  
+
+* the parentheses `()` indicate a grouping
+* the 2nd grouping `(, )` only has one modification from the pattern used in the first example - here we include a space after the comma. 
+* the 4th `(\\.)` grouping remains unchanged from the first example.
+* in the 1st, 3rd, and 5th grouping `(.*)`
+  + the period `.` means _any character_
+  + the asterisk `*` means _matches at least 0 times_
+
+
+To execute this, we'll grab the 4th column to catch our title.
+
+```{r}
+train[["Name"]] %>% 
+  str_match("(.*)(, )(.*)(\\.)(.*)") %>%
+  .[,4] %>% 
+  head()
+```
+
+All right, we got it again!
+
+
+```{r, eval = F}
+  train %>% mutate(title = str_trim(str_match(train[["Name"]],
+                                    "(.*)(,)(.*?)(\\.)(.*)")[,4]))
+```
+
+
+
+```{r}
+head(gsub('(.*, )|(\\..*)', '', train$Name))
+```
+
+# Re-classifying entries
