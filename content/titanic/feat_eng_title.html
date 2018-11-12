@@ -1,7 +1,7 @@
 ---
-title: "Feature engineering: extracting title from name"
+title: "Feature engineering name with 4 approaches to regular expressions"
 author: "Shannon Pileggi"
-date: 2018-11-05
+date: 2018-11-12
 categories: ["R"]
 tags: ["Titanic", "kaggle", "feature engineering", "title", "Name", "regular epressions", "character"]
 draft: true
@@ -9,6 +9,8 @@ draft: true
 
 
 
+<div id="overview" class="section level1">
+<h1>Overview</h1>
 <p>In a previous post, we got an overview of Titanic’s character variables. Now let’s see what we can do with the <code>Name</code> variable; recall, this variable has all unique values! To get started, let’s visually inspect a few values.</p>
 <pre class="r"><code>train %&gt;% 
   select(Name) %&gt;% 
@@ -31,10 +33,13 @@ draft: true
 <blockquote>
 <p><code>XXX, YYY. ZZZ</code></p>
 </blockquote>
-<p>but without consistent positioning (i.e., the comma isn’t always in the 4th position). Combining the correct key with the correct function will yield the <code>YYY</code> content. Let’s demo two ways to tackle the challenge utilizing functions from the <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">stringr</a> package, one with simple pattern matching and one with more complex pattern matching.</p>
+<p>but without consistent positioning (i.e., the comma isn’t always in the 4th position). Combining the correct key with the correct function will yield the <code>YYY</code> content. Let’s demo four ways to tackle the challenge utilizing functions from the <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">stringr</a> package; each methods specifies a different string pattern to match.</p>
 <pre class="r"><code>library(stringr)</code></pre>
-<div id="first-effort-with-simple-pattern-matching" class="section level1">
-<h1>First effort, with simple pattern matching</h1>
+</div>
+<div id="extracting-title-from-name" class="section level1">
+<h1>Extracting title from name</h1>
+<div id="first-approach" class="section level3">
+<h3>First approach</h3>
 <p>ICYMI, the double bracket in <code>train[[&quot;Name&quot;]]</code> is used to <a href="https://www.r-bloggers.com/r-accessors-explained/">extract</a> a named variable vector from a data frame, which has some benefits over the more commonly used dollar sign (i.e., <code>train$Name</code>). Now onward.</p>
 <p>The <code>str_locate</code> function produces the starting and ending position of a specified pattern. If we consider the comma to be a pattern, we can figure out where it is located in each name. Here, the starting and ending value is the same because the comma is only one character.</p>
 <pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
@@ -68,8 +73,8 @@ period_pos &lt;-
 <pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
 <p>Super!</p>
 </div>
-<div id="second-effort-with-more-complex-pattern-matching" class="section level1">
-<h1>Second Effort, with more complex pattern matching</h1>
+<div id="second-approach" class="section level3">
+<h3>Second approach</h3>
 <p>The <code>str_match</code> function creates a character matrix for each group matched in the specified pattern. If we return to our original pattern framework, note that it consists of 5 separate elements:</p>
 <blockquote>
 <p><code>XXX, YYY. ZZZ</code></p>
@@ -77,7 +82,8 @@ period_pos &lt;-
 <ol style="list-style-type: decimal">
 <li><code>XXX</code>, (2) <code>,</code>, (3) <code>YYY</code>, (4) <code>.</code>, and (5) <code>ZZZ</code>. With the correct regular expression, <code>str_match</code> returns the complete match in addition to all 5 elements (so a matrix with 6 columns).</li>
 </ol>
-<pre class="r"><code>str_match(&quot;XXX, YYY. ZZZ&quot;, &quot;(.*)(, )(.*)(\\.)(.*)&quot;)</code></pre>
+<pre class="r"><code># ---------------------------1---2---3----4---5----                      
+str_match(&quot;XXX, YYY. ZZZ&quot;, &quot;(.*)(, )(.*)(\\.)(.*)&quot;)</code></pre>
 <pre><code>##      [,1]            [,2]  [,3] [,4]  [,5] [,6]  
 ## [1,] &quot;XXX, YYY. ZZZ&quot; &quot;XXX&quot; &quot;, &quot; &quot;YYY&quot; &quot;.&quot;  &quot; ZZZ&quot;</code></pre>
 <p>Let’s break down this regular expression pattern.</p>
@@ -98,11 +104,84 @@ period_pos &lt;-
   head()</code></pre>
 <pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
 <p>All right, we got it again!</p>
-<pre class="r"><code>  train %&gt;% mutate(title = str_trim(str_match(train[[&quot;Name&quot;]],
-                                    &quot;(.*)(,)(.*?)(\\.)(.*)&quot;)[,4]))</code></pre>
-<pre class="r"><code>head(gsub(&#39;(.*, )|(\\..*)&#39;, &#39;&#39;, train$Name))</code></pre>
+</div>
+<div id="third-approach" class="section level3">
+<h3>Third approach</h3>
+<p>Lastly, let’s use the <code>str_extract</code> function to extract matching patterns. This seems like what we wanted to do all along!</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_extract(&quot;([A-z]+)\\.&quot;) %&gt;%
+  head()</code></pre>
+<pre><code>## [1] &quot;Mr.&quot;   &quot;Mrs.&quot;  &quot;Miss.&quot; &quot;Mrs.&quot;  &quot;Mr.&quot;   &quot;Mr.&quot;</code></pre>
+<p>Let’s break down this pattern:</p>
+<ul>
+<li><p>Here, the bracket <code>[]</code>specifies a list of permitted characters.</p></li>
+<li><p>Inside the bracket, we specify strings that consist of both upper and lower case letters with <code>A-z</code>.</p></li>
+<li><p>The <code>+</code> outside the bracket signifies “match at least one time”, i.e., grab all the letters.</p></li>
+<li><p>Finally, ending in <code>\\.</code> indicates that our pattern should end in period.</p></li>
+<li><p>Putting it all together, this pattern translates to “grab all upper case and lower case letters immediately preceeding a period.”</p></li>
+</ul>
+<p>This pattern is a bit more sophisticated to compose than the previous ones, but it gets right to the point! This last effort does end in a period, whereas the others do not. If we wanted to remove the period for consistency, we could use <code>str_sub</code> with the <code>end</code> argument to specify the position of the last character.</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_extract(&quot;([A-z]+)\\.&quot;) %&gt;%
+  str_sub(end = -2) %&gt;%
+  head()</code></pre>
 <pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
+</div>
+<div id="fourth-approach" class="section level3">
+<h3>Fourth approach</h3>
+<p>As a last effort, we can use <code>str_replace_all</code> to replace all matched patterns with null character values. Here, we specify the pattern and then the replacement string.</p>
+<pre class="r"><code>train[[&quot;Name&quot;]] %&gt;% 
+  str_replace_all(&quot;(.*, )|(\\..*)&quot;, &quot;&quot;) %&gt;%
+  head()</code></pre>
+<pre><code>## [1] &quot;Mr&quot;   &quot;Mrs&quot;  &quot;Miss&quot; &quot;Mrs&quot;  &quot;Mr&quot;   &quot;Mr&quot;</code></pre>
+<p>The new regular expression syntax included here is the vertical pipe <code>|</code>, which means “or”. In this case, we are specifying that all characters preceeding a comma space (<code>,</code>) and all characters after a period should be replaced with null character values.</p>
+</div>
 </div>
 <div id="re-classifying-entries" class="section level1">
 <h1>Re-classifying entries</h1>
+<p>Now that we figured out how to extract the title, I’ll utilize the last method and assign <code>title</code> as a variable to the <code>train</code> data set using the <code>mutate</code> function.</p>
+<pre class="r"><code>train &lt;- 
+  train %&gt;% 
+  mutate(title = str_replace_all(train[[&quot;Name&quot;]],
+                                 &quot;(.*, )|(\\..*)&quot;, 
+                                 &#39;&#39;))</code></pre>
+<p>Now let’s use <code>count</code> to get a frequency table of the titles, with the <code>sort = TRUE</code> option to arrange the results in descending order.</p>
+<pre class="r"><code>train %&gt;%
+  count(title, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 17 x 2
+##    title            n
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 Mr             517
+##  2 Miss           182
+##  3 Mrs            125
+##  4 Master          40
+##  5 Dr               7
+##  6 Rev              6
+##  7 Col              2
+##  8 Major            2
+##  9 Mlle             2
+## 10 Capt             1
+## 11 Don              1
+## 12 Jonkheer         1
+## 13 Lady             1
+## 14 Mme              1
+## 15 Ms               1
+## 16 Sir              1
+## 17 the Countess     1</code></pre>
+<p>We can see that there are several infrequent titles occuring only one or two times, and so we should re-classify them. If I was really trying to win, I would try to figure out the historical context and meaning of those titles to create a better classification for them. For now, let’s take the easy way out by just re-classifying them to an <code>other</code> group.</p>
+<p>Fortunately, the <code>forcats</code> package has an awesome function that let’s us do this quickly: <code>fct_lump</code>. Thus function <code>lumps</code> the least frequent values together in an <code>other</code> group, and the <code>n = 6</code> option specifies to keep the 6 most common values (so the 7th value is <code>other</code>).</p>
+<pre class="r"><code>train %&gt;%
+  mutate(title2 = fct_lump(title, n = 6)) %&gt;%
+  count(title2, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   title2     n
+##   &lt;fct&gt;  &lt;int&gt;
+## 1 Mr       517
+## 2 Miss     182
+## 3 Mrs      125
+## 4 Master    40
+## 5 Other     14
+## 6 Dr         7
+## 7 Rev        6</code></pre>
+<p>If you wanted to explicitly re-code the infrequent titles to something more meaningful than <code>other</code>, look into <a href="https://r4ds.had.co.nz/factors.html">fct_recode</a>.</p>
 </div>
