@@ -1,10 +1,12 @@
 ---
-title: "Exploring character variables"
+title: "Exploring variables"
 author: "Shannon Pileggi"
 date: 2018-11-08
 categories: ["R"]
 tags: ["Titanic", "kaggle", "character", "exploratory data analysis"]
 ---
+
+# Importing the data
 
 To begin with, let's import the `train` data set as a [tibble](https://r4ds.had.co.nz/tibbles.html) using the `read_csv` function in the `tidyverse` package.
 
@@ -12,6 +14,9 @@ To begin with, let's import the `train` data set as a [tibble](https://r4ds.had.
 library(tidyverse)
 train <- read_csv("train.csv")
 ```
+
+
+# Character variables
 
 For a quick view of character variable values, use the `glimpse` function in combination with `select_if` and `is.character`, which allows you to restrict output to character variables only.  
 
@@ -50,5 +55,35 @@ train %>%
   count(Embarked, sort = T)
 ```
 
-
 The bottom line: `Embarked`, `Name`, `Ticket`, and `Cabin` all require some finesse for added value in modeling. 
+
+
+#  Numeric variables
+
+Let's take a quick look at some values of the remaining numeric variables, as well as quick summary.  
+
+```{r}
+train %>% 
+  select_if(is.numeric) %>% 
+  glimpse()
+```
+
+The `skim_with` function allows you to customize your `skim` output. Here, we are suppressing the histograms that are displayed by default because of [known issues](https://github.com/ropensci/skimr/issues/263) with displaying the spark graph.
+
+```{r}
+# suppress printing of histograms ----
+skim_with(numeric = list(hist = NULL), 
+          integer = list(hist = NULL))
+
+train %>% 
+  select_if(is.numeric) %>% 
+  skim()
+```
+
+Some notes here:
+
+* `Pclass` only takes on values of 1, 2, and 3, so we want to be sure to treat that as a factor in analysis.
+* `Age` has 177 missing values, so we may want to look into imputation methods for these.
+* `Fare` has a pretty extreme max value (`512.33`) relative to the 75th percentile (`31`) - this is something we might want to examine closer and keep in mind when modeling.  
+
+Now that we have a solid overview of the variables in our data set, we are ready to dig deeper!
