@@ -4,7 +4,6 @@ author: "Shannon Pileggi"
 date: 2018-11-12
 categories: ["R"]
 tags: ["Titanic", "kaggle", "feature engineering", "title", "Name", "regular epressions", "character"]
-draft: true
 ---
 
 ```{r, include = F, message = F}
@@ -14,7 +13,7 @@ train <- read_csv("C:/Users/spileggi/Google Drive/kaggle/titanic/train.csv")
 
 # Overview
 
-In a previous post, we got an overview of Titanic's character variables.  Now let's see what we can do with the `Name` variable; recall, this variable has all unique values!  To get started, let's visually inspect a few values.
+In a [previous post](https://www.pipinghotdata.com/titanic/exploring_variables/), we got an overview of Titanic's character variables.  Now let's see what we can do with the `Name` variable; recall, this variable has all unique values!  To get started, let's visually inspect a few values.
 
 ```{r}
 train %>% 
@@ -28,7 +27,7 @@ Parsing character strings requires knowledge of [regular expressions](https://ww
 
 > ` XXX, YYY. ZZZ`
 
-but without consistent positioning (i.e., the comma isn't always in the 4th position).  Combining the correct key with the correct function will yield the `YYY` content.  Let's demo four ways to tackle the challenge utilizing functions from the [stringr](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) package; each methods specifies a different string pattern to match.
+but without consistent positioning (i.e., the comma isn't always in the 4th position).  Combining the correct key with the correct function will yield the `YYY` content.  Let's demo four ways to tackle the challenge utilizing functions from the [stringr](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) package; each method specifies a different string pattern to match.
 
 ```{r}
 library(stringr)
@@ -51,7 +50,6 @@ train[["Name"]] %>%
 Knowing this, we can identify the positions of the comma and the period and then extract the text in between.  Some notes here:
 
 * Because `str_locate` function returns a matrix, we use `.` as a [placeholder](https://rafalab.github.io/dsbook/summarizing-data-with-dplyr.html#the-dot-operator) in `.[,1]` to access the first column of values.
-
 * Because `.` is a special character in regular expressions, we use the double backslash in `"\\."` to [escape](https://stringr.tidyverse.org/articles/regular-expressions.html#escaping) it.
 
 ```{r}
@@ -83,7 +81,7 @@ The `str_match` function creates a character matrix for each group matched in th
 
 > `XXX, YYY. ZZZ`
 
-(1) `XXX`, (2) `,`, (3) `YYY`, (4) `.`, and (5) `ZZZ`. With the correct regular expression, `str_match` returns the complete match in addition to all 5 elements (so a matrix with 6 columns).
+1. `XXX`, 2. `,`, 3. `YYY`, 4. `.`, and 5. `ZZZ`. With the correct regular expression, `str_match` returns the complete match in addition to all 5 elements (so a matrix with 6 columns).
 
 ```{r}
 # ---------------------------1---2---3----4---5----                      
@@ -92,12 +90,12 @@ str_match("XXX, YYY. ZZZ", "(.*)(, )(.*)(\\.)(.*)")
 
 Let's break down this regular expression pattern.  
 
-* the parentheses `()` indicate a grouping
-* the 2nd grouping `(, )` only has one modification from the pattern used in the first example - here we include a space after the comma. 
-* the 4th `(\\.)` grouping remains unchanged from the first example.
+* The parentheses `()` indicate a grouping
+* The 2nd grouping `(, )` only has one modification from the pattern used in the first example - here we include a space after the comma. 
+* The 4th grouping `(\\.)` remains unchanged from the first example.
 * in the 1st, 3rd, and 5th grouping `(.*)`
-  + the period `.` means _any character_
-  + the asterisk `*` means _matches at least 0 times_
+  + The period `.` means _any character_
+  + The asterisk `*` means _matches at least 0 times_
 
 
 To execute this, we'll grab the 4th column to catch our title.
@@ -120,16 +118,12 @@ train[["Name"]] %>%
   str_extract("([A-z]+)\\.") %>%
   head()
 ```
-Let's break down this pattern:
+Let's break down this regular expression:
 
 * Here, the bracket `[]`specifies a list of permitted characters.
-
 * Inside the bracket, we specify strings that consist of both upper and lower case letters with `A-z`.
-
 * The `+` outside the bracket signifies "match at least one time", i.e., grab all the letters.
-
 * Finally, ending in `\\.` indicates that our pattern should end in period.
-
 * Putting it all together, this pattern translates to "grab all upper case and lower case letters immediately preceeding a period." 
 
 This pattern is a bit more sophisticated to compose than the previous ones, but it gets right to the point!  This last effort does end in a period, whereas the others do not.  If we wanted to remove the period for consistency, we could use `str_sub` with the `end` argument to specify the position of the last character.
@@ -145,25 +139,29 @@ train[["Name"]] %>%
 
 ### Fourth approach
 
-As a last effort, we can use `str_replace_all` to replace all matched patterns with null character values.  Here, we specify the pattern and then the replacement string.  
+As a last approach, we can use `str_replace_all` to replace all matched patterns with null character values.  Here, we specify the pattern and then the replacement string.  
 
 ```{r}
 train[["Name"]] %>% 
   str_replace_all("(.*, )|(\\..*)", "") %>%
   head()
 ```
-The new regular expression syntax included here is the vertical pipe `|`, which means "or".  In this case, we are specifying that all characters preceeding a comma space (` ,`) and all characters after a period should be replaced with null character values.  
+In this regular expression,
+
+* There are two groupings separated by a vertical pipe `|` which means "or".
+* The two groupings should look familar:
+  + The first grouping looks for all characters preceeding a comma space.
+  + The second grouping looks for all characters following a period.
+* Putting it together, if grouping 1 _or_ grouping 2 is satisifed then those character values are replaced with null character values. 
 
 # Re-classifying entries
 
 Now that we figured out how to extract the title, I'll utilize the last method and assign `title` as a variable to the `train` data set using the `mutate` function.
 
 ```{r}
-train <- 
-  train %>% 
-  mutate(title = str_replace_all(train[["Name"]],
-                                 "(.*, )|(\\..*)", 
-                                 ''))
+train <-
+  train %>%
+  mutate(title = str_replace_all(train[["Name"]], "(.*, )|(\\..*)", ""))
 ```
 
 Now let's use `count` to get a frequency table of the titles, with the `sort = TRUE` option to arrange the results in descending order.
@@ -174,7 +172,7 @@ train %>%
 
 We can see that there are several infrequent titles occuring only one or two times, and so we should re-classify them.  If I was really trying to win, I would try to figure out the historical context and meaning of those titles to create a better classification for them. For now, let's take the easy way out by just re-classifying them to an `other` group.
 
-Fortunately, the `forcats` package has an awesome function that let's us do this quickly: `fct_lump`.  Thus function `lumps` the least frequent values together in an `other` group, and the `n = 6` option specifies to keep the 6 most common values (so the 7th value is `other`).
+Fortunately, the `forcats` package has an awesome function that let's us do this quickly: `fct_lump`.  We're using `mutate` again to create a new title variable that is re-classified (`title2`).  The `fct_lump` function combines the least frequent values together in an `other` group, and the `n = 6` option specifies to keep the 6 most common values (so the 7th value is `other`).
 
 ```{r}
 train %>%
@@ -183,4 +181,6 @@ train %>%
 ```
 
 If you wanted to explicitly re-code the infrequent titles to something more meaningful than `other`, look into [fct_recode](https://r4ds.had.co.nz/factors.html).
+
+Super, now `title2` is ready to use for analysis!
 
