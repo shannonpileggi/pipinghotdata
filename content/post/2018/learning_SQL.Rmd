@@ -1,0 +1,83 @@
+---
+title: "Learning SQL through PostgreSQL in R"
+author: "Shannon Pileggi"
+date: 2018-10-26
+categories: ["R"]
+tags: ["PostgreSQL", "R", "SQL", "data science"]
+draft: true
+---
+
+# Overview
+
+`SQL` is general programming language utilized to navigate relational databases, and it is a hot keyword in so many data science job ads today.  If you are in the data science job market, chances are you might encounter some of the following:
+
+1. A verbal mini-quiz on SQL syntax.
+2. A whiteboard exercise to write SQL code.
+3. A take-home SQL challenge to complete.
+
+If you didn't learn SQL as part of your curriculum or on the job, how can you demonstrate to your employer that you are worthy?  There are many online courses and materials you can use to learn the basics, but to ace an interview you really need to achieve mastery. Below are a SQL quiz and a take home assignment to help prep you.  Still feeling out of depth?  Head down to the SQL playground.
+
+# The quiz
+
+# The take home assignment
+
+HelpScout recently posted [this challenge](https://gist.github.com/mattm/c011078dfc3f1feb3d8767a4425dd7d8) as part of its application process for a Data Analyst position.   The creator, [Matt Mazur](https://mattmazur.com/about/), says it should take 10-15 minutes for an intermediate SQL programmer to complete!  Give it an honest attempt, no matter how long it takes you. When you're ready, check out [Matt's review](https://mattmazur.com/2018/11/12/analyzing-89-responses-to-a-sql-screener-question-for-a-senior-data-analyst-position/) of the submitted solutions.
+
+# The SQL playground
+
+Different flavors of SQL can be used with different databases.  R is rapidly expanding its infrastructure to connect with a variety of databases, and the [Databases using R](https://db.rstudio.com/) site is quite comprehensive.  For this demo, we'll use the free and open source database [PostgreSQL](https://www.postgresql.org/), and we'll follow Hadley Wickham's [R for Data Science](https://r4ds.had.co.nz) chapter on [relational databases](https://r4ds.had.co.nz/relational-data.html).  I encourage you to use your own data that motivates you, and build your own [SQL library](https://caitlinhudon.com/2018/11/28/git-sql-together/) as recommended by [Caitlin Hudon]().     
+
+## Installations
+
+To get started [download PostgreSQL](https://www.postgresql.org/download/), and be sure to remember the password you established.  We're also going to use the R packages of [tidyverse](https://www.tidyverse.org/packages/), [nycflights13](https://cran.r-project.org/web/packages/nycflights13/index.html), and [RPostgreSQL](https://cran.r-project.org/web/packages/RPostgreSQL/index.html).
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(RPostgreSQL)
+```
+
+## Connecting to the PostgreSQL database
+
+First we initialize the PostgreSQL and then connect to the database.  
+
+```{r}
+# load the PostgreSQL driver ---
+drv <- dbDriver("PostgreSQL")
+
+# connection to the postgres database ---
+con <- dbConnect(drv, 
+                 dbname = "postgres",
+                 host = "localhost", 
+                 port = 5432,
+                 user = "postgres", 
+                 password = "mynewpassword")
+```
+
+
+## Load NYC flights data to the data base
+
+```{r}
+dbWriteTable(conn = con, 
+             name = "airlines", 
+             value = nycflights13::airlines)
+
+dbWriteTable(conn = con, 
+             name = "airports", 
+             value = nycflights13::airports)
+
+dbWriteTable(conn = con, 
+             name = "planes", 
+             value = nycflights13::planes)
+
+dbWriteTable(conn = con, 
+             name = "weather", 
+             value = nycflights13::weather)
+```
+
+## Verify databases exist
+
+```{r}
+dbListTables(conn = con)
+```
+
