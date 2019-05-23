@@ -8,12 +8,14 @@ tags: ["Titanic", "kaggle", "feature engineering", "title", "name", "regular exp
 
 ```{r, include = F, message = F}
 library(tidyverse)
-train <- read_csv("C:/Users/spileggi/Google Drive/kaggle/titanic/train.csv")
+train <- read_csv(here::here("content", "titanic", "train.csv"))
 ```
+
+_Update May 22, 2019_: Thanks to @[hglanz](https://twitter.com/hglanz) for noting that I could have used `pull` instead of the `.` as a placeholder. 
 
 # Overview
 
-In a [previous post](https://www.pipinghotdata.com/titanic/exploring_variables/), we got an overview of Titanic's character variables.  Now let's see what we can do with the `Name` variable; recall, this variable has all unique values!  To get started, let's visually inspect a few values.
+The `Name` variable in the `titanic` data set has all unique values.  To get started, let's visually inspect a few values.
 
 ```{r}
 train %>% 
