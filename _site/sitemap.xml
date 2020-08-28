@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
+  <url>
+    <loc>www.pipinghotdata.com/about.html</loc>
+    <lastmod>2020-08-28T18:19:53-04:00</lastmod>
+  </url>
+  <url>
+    <loc>www.pipinghotdata.com/</loc>
+    <lastmod>2020-08-27T21:18:57-04:00</lastmod>
+  </url>
+  <url>
+    <loc>www.pipinghotdata.com/posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/</loc>
+    <lastmod>2020-08-28T18:14:15-04:00</lastmod>
+  </url>
+  <url>
+    <loc>www.pipinghotdata.com/posts/welcome/</loc>
+    <lastmod>2020-08-27T22:11:05-04:00</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,111 @@
+---
+title: "How twitter and #tidytuesday helped me land a job offer"
+description: |
+  An interview presentation crafted with help from the R community
+author:
+  - name: Shannon Pileggi
+date: 08-27-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+creative_commons: CC BY
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+# TL; DR
+
+I received a job offer after this [interview presentation](https://spileggi.shinyapps.io/Pileggi_presentation_shiny/), which gave me insights on my prospective employer while showcasing my analytics abilities.  
+
+# Back up
+
+When I was told that my interview at [Adelphi Research](https://adelphiresearch.com/) would involve a presentation, I was pretty happy. After being a college professor for six years, I was confident in my public speaking. In addition, a presentation allows the candidate to highlight what they _do_ know, whereas other interview formats may confront candidates with what they _don't_ know. The specific presentation instructions were:
+
+> This can be any 20 minute presentation you’d like to share with the team; our recommendation is that it focuses on Market Research, is something innovative, and something that you’re particularly proud of!
+
+It was also briefly mentioned in the phone screening that the analytics group with whom I was interviewing was just beginning to develop [shiny](https://shiny.rstudio.com/) applications.  
+
+# Formulation
+
+Now I faced the dilemma of what to actually present. I wanted to shine as a candidate, but my previous academic experience was tangential to this industry. I took their instructions to heart and decided to create something that I was truly proud of. I developed a project with three goals in mind:
+
+ 1. Learn about my prospective employer.
+ 
+ 2. Practice with tidyverse.
+ 
+ 3. Develop new analytic skills that could be useful to discuss in any job interview.  
+
+# Fortuitous tweets
+
+At the same time, 2018 was the inaugural year of [#tidytuesday](https://github.com/rfordatascience/tidytuesday). Prompted by [David Robinson](https://twitter.com/drob)'s [screencast](https://www.youtube.com/watch?v=C69QyycHsgE) analyzing medium articles with [tidytext](https://github.com/juliasilge/tidytext) I dove into my first foray in text analysis, which made me start to think of how to translate those those same principles to tweets.
+
+```{r}
+tweetrmd::include_tweet("https://twitter.com/drob/status/1069954125020958720")
+```
+
+I was also concerned with the actual format / deliverable for the presentation. I knew I wanted to create something within R, but that [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) might not work well for self-contained presentations that need to be emailed around. I tweeted an #rstats plea for advice and was inspired by [Emily Riederers](https://twitter.com/EmilyRiederer)'s suggestion to use a [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/index.html) for the presentation.  
+
+
+```{r}
+tweetrmd::include_tweet("https://twitter.com/EmilyRiederer/status/1073001289339027456")
+```
+
+
+# What I did
+ 
+I learned about my prospective employer through their tweets. I examined their tweets over time, common hashtags, and tweet popularity by likes and retweets.  I examined trends in hashtags over time, the distribution of likes and retweets among common hashtags, and a network analysis of what hashtags went together. I also took a look at common words (but not necessarily hashtags) in the tweets, a network analysis of those words, and a LASSO model to analyze word associations with likes and retweets.  Lastly, I created two shiny aps to accompany the presentation, one to quickly search tweets and another to explore the network analysis of words and hashtags. Yes, it was a lot!  Especially because so many of the analysis methods and R packages were new to me.  
+
+# Packages used   
+
+Starred packages (*) are packages that I used for the first time.
+
+```{r}
+learned <- tibble::tribble(
+  ~Package, ~Purpose,
+  "*[rtweet](https://github.com/ropensci/rtweet)", "retrieve tweets",
+  "*[tidytext](https://github.com/juliasilge/tidytext)", "manipulate tweet text",
+  "[lubridate](https://lubridate.tidyverse.org/)", "manipulate tweet dates",
+  "[dplyr](https://dplyr.tidyverse.org/)", "manipulate data", 
+  "[stringr](https://stringr.tidyverse.org/)", "re-code hashtags", 
+  "[skimr](https://github.com/ropensci/skimr)", "preview data", 
+  "[forcats](https://forcats.tidyverse.org/)", "ordering factors", 
+  "[ggplot2](https://ggplot2.tidyverse.org/)", "data visualization", 
+  "*[widyr](https://github.com/dgrtwo/widyr)", "pairwise correlations", 
+  "*[igraph](https://igraph.org/r/doc/)", "create network", 
+  "*[ggraph](https://ggraph.data-imaginist.com/index.html)", "visualize network", 
+  "*[glmnet](https://glmnet.stanford.edu/)", "lasso model",
+  "[broom](https://github.com/tidymodels/broom)", "tidy model output",
+  "[DT](https://rstudio.github.io/DT/)", "display tables",
+  "*[flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/)", "format presentation"
+  )
+```
+
+
+
+```{r}
+learned %>% 
+ AdelphiR::my_kable()
+```
+
+
+
+# Results
+
+I hosted my presentation and the two shiny applications on [shinyapps.io](https://www.shinyapps.io/), and made all of my code publicly available on github. 
+
+  * [Interview presentation](https://spileggi.shinyapps.io/Pileggi_presentation_shiny/) 
+  
+  * [Shiny app for tweet look up](https://spileggi.shinyapps.io/tweet_lookup/)  
+  * [Shiny app for network analysis](https://spileggi.shinyapps.io/tweet_network/)
+  
+  * [Code on github](https://github.com/shannonpileggi/Adelphi-tweets) behind it all
+
+I got the job!  Along the way, I learned about the values and industry applications of my prospective employer, facilitating the research that motivated me to accept the position. My interviewers forwarded the presentation to their PR team to discuss their twitter presence. And I had fun. I learned new skills that would serve me for other potential interviews, personal projects, or work projects. I wouldn't have been able to pull it off without the #rstats twitter presence, the incredible packages that I used, and the numerous blog posts that I referenced.  Cheers, R!   
