@@ -5,10 +5,11 @@ description: |
 author:
   - name: Shannon Pileggi
 date: 08-27-2020
+preview: welcome_to_rstats_twitter.png
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: TRUE
 creative_commons: CC BY
 ---
 
@@ -45,13 +46,13 @@ Then I faced the dilemma of what to actually present. I wanted to shine as a can
 
 # Fortuitous tweets
 
-At the same time, 2018 was the inaugural year of [#tidytuesday](https://github.com/rfordatascience/tidytuesday). Prompted by [David Robinson](https://twitter.com/drob)'s [screencast](https://www.youtube.com/watch?v=C69QyycHsgE) analyzing medium articles with [tidytext](https://github.com/juliasilge/tidytext) I dove into my first foray in text analysis, which inspired me to translate those those same principles to tweets.
+At the same time, 2018 was the inaugural year of [#tidytuesday](https://github.com/rfordatascience/tidytuesday). Prompted by [David Robinson](https://twitter.com/drob)'s [screencast](https://www.youtube.com/watch?v=C69QyycHsgE) analyzing medium articles with [tidytext](https://github.com/juliasilge/tidytext) I dove into my first foray in text analysis, which inspired me to apply the same principles to tweets.
 
 ```{r}
 tweetrmd::include_tweet("https://twitter.com/drob/status/1069954125020958720")
 ```
 
-I was also concerned with the actual format / deliverable for the presentation. I knew I wanted to create something in R, but that [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) might not work well for self-contained presentations that need to be emailed around. I tweeted an #rstats plea for advice and was inspired by [Emily Riederer](https://twitter.com/EmilyRiederer)'s suggestion to use a [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/index.html) for the presentation.  
+I was also concerned with the actual format / deliverable for the presentation. I knew I wanted to create something in R, but that [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) might not work well for self-contained presentations that needed to be emailed around. I tweeted an #rstats plea for advice and was inspired by [Emily Riederer](https://twitter.com/EmilyRiederer)'s suggestion to use a [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/index.html) for the presentation.  
 
 
 ```{r}
@@ -63,10 +64,10 @@ tweetrmd::include_tweet("https://twitter.com/EmilyRiederer/status/10730012893390
 
 I spent many hours at the computer. I paused and replayed David Robinson's screencast several times. I researched R functions and analytic methods that were new to me.  And then...  
  
-I learned about my prospective employer through their tweets. I explored their tweets over time, common hashtags, and tweet popularity by likes and retweets.  I examined trends in hashtags over time, the distribution of likes and retweets among common hashtags, and a network analysis of what hashtags went together. I also delved into common words (but not hashtags) in the tweets, a network analysis of those words, and a lasso model to analyze word associations with likes and retweets.  Lastly, I created two shiny apps to accompany the presentation, one to search tweets and another to explore the network analysis of words and hashtags. Yes, it was a lot! (And my presentation did go slightly over 20 minutes. `r emo::ji("grimace")`)
+I learned about my prospective employer through their tweets. I explored their tweets over time, common hashtags, and tweet popularity by likes and retweets.  I examined trends in hashtags over time, the distribution of likes and retweets among common hashtags, and a network analysis of what hashtags went together. I also delved into common words (but not hashtags) in the tweets, a network analysis of those words, and a lasso model to assess word associations with likes and retweets.  Lastly, I created two shiny apps to accompany the presentation, one to search tweets and another to explore the network analysis of words and hashtags. Yes, it was a lot! (And my presentation did go slightly over 20 minutes. `r emo::ji("grimace")`)
 
 
-# Packages    
+# R packages    
 
 Starred packages (`*`) are packages that I used for the first time (7!). Unfortunately, I no longer have links to the wonderful blog posts that helped me navigate these packages.
 
@@ -87,7 +88,8 @@ learned <- tibble::tribble(
   "*[glmnet](https://glmnet.stanford.edu/)", "lasso model",
   "[broom](https://github.com/tidymodels/broom)", "tidy model output",
   "[DT](https://rstudio.github.io/DT/)", "display tables",
-  "*[flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/)", "format presentation"
+  "*[flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/)", "format presentation",
+  "*[shiny](https://shiny.rstudio.com/)", "create shiny app"
   )
 ```
 
@@ -102,7 +104,7 @@ learned %>%
 
 # Results
 
-I hosted my presentation and the two shiny applications on [shinyapps.io](https://www.shinyapps.io/), and made all of my code publicly available on github. 
+I hosted my presentation and the two shiny applications on [shinyapps.io](https://www.shinyapps.io/) and made all of my code publicly available on github. 
 
   * [Interview presentation](https://spileggi.shinyapps.io/Pileggi_presentation_shiny/) 
   
@@ -111,4 +113,13 @@ I hosted my presentation and the two shiny applications on [shinyapps.io](https:
   
   * [Code on github](https://github.com/shannonpileggi/Adelphi-tweets) behind it all
 
-I got the job!  Along the way, I learned about the values and industry applications of my prospective employer, facilitating the research that motivated me to accept the position. My interviewers forwarded the presentation to their PR team to discuss their twitter presence. And I had fun. I learned new skills that would serve me for other potential interviews, personal projects, or work projects. I wouldn't have been able to pull it off without the #rstats twitter presence, the incredible packages that I used, and the numerous blog posts that I referenced.  Cheers, R!   
+I got the job!  Along the way, I gleaned insights about the values and industry of my prospective employer, empowering me throughout the interview process. In addition, my interviewers forwarded the presentation to their PR team to discuss their twitter presence. 
+
+Yes, I probably could have secured a job offer with less effort, but I would have been less confident. I embraced the interview as an opportunity to create my own side project to foster new skills that would serve me for other potential interviews, personal projects, or work projects. And enabled by the #rstats twitter presence, the incredible packages that I used, and the numerous blog posts that I referenced, I had fun. Cheers, R! `r emo::ji("cheers")`   
+
+
+# Acknowledgements
+
+Thumbnail artwork by [`@allison_horst`](https://twitter.com/allison_horst?lang=en).  Thanks to [Megan McClintock](https://www.linkedin.com/in/megan-mcclintock/) (my sister) for suggestions.
+
+
