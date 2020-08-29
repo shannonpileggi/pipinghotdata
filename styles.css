@@ -45,7 +45,12 @@ html, body, p, h2 {
 code {
   font-family: 'Fira Mono', sans-serif;
   color: #383838;
-  background: #F5F5F5;
+  background: rgba(249, 83, 85, 0.1);
   font-weight: 400;
   font-size: 0.9em;
+}
+
+d-article a {
+    border-bottom: 2px solid rgba(249, 83, 85, 0.4);
+    text-decoration: none;
 }
