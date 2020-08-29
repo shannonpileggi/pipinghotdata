@@ -1,7 +1,7 @@
 ---
-title: "How twitter and #tidytuesday helped me land a job offer"
+title: "An interview presentation inspired by the R community"
 description: |
-  An interview presentation crafted with help from the R community
+  How twitter and #tidytuesday helped me land a job offer
 author:
   - name: Shannon Pileggi
 date: 08-27-2020
@@ -23,11 +23,11 @@ library(tidyverse)
 
 # TL; DR
 
-I received a job offer after this [interview presentation](https://spileggi.shinyapps.io/Pileggi_presentation_shiny/), which gave me insights on my prospective employer while showcasing my analytics abilities.  
+Weaving resources from #tidytuesday, twitter, and blog posts, I challenged myself to create this [interview presentation](https://spileggi.shinyapps.io/Pileggi_presentation_shiny/) to gain insights on my prospective employer while showcasing my analytics abilities.
 
 # Back up
 
-When I was told that my interview at [Adelphi Research](https://adelphiresearch.com/) would involve a presentation, I was pretty happy. After being a college professor for six years, I was confident in my public speaking. In addition, a presentation allows the candidate to highlight what they _do_ know, whereas other interview formats may confront candidates with what they _don't_ know. The specific presentation instructions were:
+When I was told that my interview at [Adelphi Research](https://adelphiresearch.com/) would involve a presentation, I was pretty happy. A presentation allows the candidate to highlight what they choose, and, after being a college professor for six years, I was confident in my public speaking. The specific presentation instructions were:
 
 > This can be any 20 minute presentation you’d like to share with the team; our recommendation is that it focuses on Market Research, is something innovative, and something that you’re particularly proud of!
 
@@ -35,23 +35,23 @@ It was also briefly mentioned in the phone screening that the analytics group wi
 
 # Formulation
 
-Now I faced the dilemma of what to actually present. I wanted to shine as a candidate, but my previous academic experience was tangential to this industry. I took their instructions to heart and decided to create something that I was truly proud of. I developed a project with three goals in mind:
+Then I faced the dilemma of what to actually present. I wanted to shine as a candidate, but my previous academic experience was tangential to this industry. I took their instructions to heart and decided to create something that I was truly proud of. I developed a project with three goals in mind:
 
  1. Learn about my prospective employer.
  
- 2. Practice with tidyverse.
+ 2. Cultivate my nascent tidyverse skills.
  
- 3. Develop new analytic skills that could be useful to discuss in any job interview.  
+ 3. Invest in new analytic methods and coding techniques that could serve future me.  
 
 # Fortuitous tweets
 
-At the same time, 2018 was the inaugural year of [#tidytuesday](https://github.com/rfordatascience/tidytuesday). Prompted by [David Robinson](https://twitter.com/drob)'s [screencast](https://www.youtube.com/watch?v=C69QyycHsgE) analyzing medium articles with [tidytext](https://github.com/juliasilge/tidytext) I dove into my first foray in text analysis, which made me start to think of how to translate those those same principles to tweets.
+At the same time, 2018 was the inaugural year of [#tidytuesday](https://github.com/rfordatascience/tidytuesday). Prompted by [David Robinson](https://twitter.com/drob)'s [screencast](https://www.youtube.com/watch?v=C69QyycHsgE) analyzing medium articles with [tidytext](https://github.com/juliasilge/tidytext) I dove into my first foray in text analysis, which inspired me to translate those those same principles to tweets.
 
 ```{r}
 tweetrmd::include_tweet("https://twitter.com/drob/status/1069954125020958720")
 ```
 
-I was also concerned with the actual format / deliverable for the presentation. I knew I wanted to create something within R, but that [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) might not work well for self-contained presentations that need to be emailed around. I tweeted an #rstats plea for advice and was inspired by [Emily Riederers](https://twitter.com/EmilyRiederer)'s suggestion to use a [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/index.html) for the presentation.  
+I was also concerned with the actual format / deliverable for the presentation. I knew I wanted to create something in R, but that [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) might not work well for self-contained presentations that need to be emailed around. I tweeted an #rstats plea for advice and was inspired by [Emily Riederer](https://twitter.com/EmilyRiederer)'s suggestion to use a [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/index.html) for the presentation.  
 
 
 ```{r}
@@ -60,12 +60,15 @@ tweetrmd::include_tweet("https://twitter.com/EmilyRiederer/status/10730012893390
 
 
 # What I did
+
+I spent many hours at the computer. I paused and replayed David Robinson's screencast several times. I researched R functions and analytic methods that were new to me.  And then...  
  
-I learned about my prospective employer through their tweets. I examined their tweets over time, common hashtags, and tweet popularity by likes and retweets.  I examined trends in hashtags over time, the distribution of likes and retweets among common hashtags, and a network analysis of what hashtags went together. I also took a look at common words (but not necessarily hashtags) in the tweets, a network analysis of those words, and a LASSO model to analyze word associations with likes and retweets.  Lastly, I created two shiny aps to accompany the presentation, one to quickly search tweets and another to explore the network analysis of words and hashtags. Yes, it was a lot!  Especially because so many of the analysis methods and R packages were new to me.  
+I learned about my prospective employer through their tweets. I explored their tweets over time, common hashtags, and tweet popularity by likes and retweets.  I examined trends in hashtags over time, the distribution of likes and retweets among common hashtags, and a network analysis of what hashtags went together. I also delved into common words (but not hashtags) in the tweets, a network analysis of those words, and a lasso model to analyze word associations with likes and retweets.  Lastly, I created two shiny apps to accompany the presentation, one to search tweets and another to explore the network analysis of words and hashtags. Yes, it was a lot! (And my presentation did go slightly over 20 minutes. `r emo::ji("grimace")`)
 
-# Packages used   
 
-Starred packages (*) are packages that I used for the first time.
+# Packages    
+
+Starred packages (`*`) are packages that I used for the first time (7!). Unfortunately, I no longer have links to the wonderful blog posts that helped me navigate these packages.
 
 ```{r}
 learned <- tibble::tribble(
