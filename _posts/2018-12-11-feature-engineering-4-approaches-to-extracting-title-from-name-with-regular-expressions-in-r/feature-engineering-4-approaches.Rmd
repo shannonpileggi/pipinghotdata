@@ -5,7 +5,7 @@ description: |
 author:
   - name: Shannon Pileggi 
 date: 12-11-2018
-preview: table.png
+preview: table2.png
 output:
   distill::distill_article:
     self_contained: false

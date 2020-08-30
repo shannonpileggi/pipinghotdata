@@ -6,7 +6,7 @@ author:
   - name: Shannon Pileggi 
     url: www.pipinghotdata.com
 date: 11-05-2018
-preview: pipes2.jpg
+preview: tidyverse_celestial.png
 output:
   distill::distill_article:
     self_contained: false
@@ -69,5 +69,7 @@ While the name of this blog gives an nod to the powerful pipe, the pipe isn't go
 
 I hope you enjoy!
 
+# Acknowledgements
 
+Thumbnail artwork by [`@allison_horst`](https://twitter.com/allison_horst?lang=en).
 

@@ -1,5 +1,23 @@
 [
   {
+    "path": "posts/2020-08-30-a-job-interview-presentation-inspired-by-the-r-community/",
+    "title": "A job interview presentation inspired by the R community",
+    "description": "How #tidytuesday and twitter helped me secure a job offer",
+    "author": [
+      {
+        "name": "Shannon Pileggi",
+        "url": {}
+      }
+    ],
+    "date": "2020-08-30",
+    "categories": [],
+    "preview": "posts/2020-08-30-a-job-interview-presentation-inspired-by-the-r-community/welcome_to_rstats_twitter.png",
+    "last_modified": "2020-08-30T19:10:23-04:00",
+    "input_file": {},
+    "preview_width": 2009,
+    "preview_height": 1942
+  },
+  {
     "path": "posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/",
     "title": "Feature engineering: 4 approaches to extracting title from name with regular expressions in R",
     "description": "Exploring stringr::str_* functions",
@@ -11,11 +29,11 @@
     ],
     "date": "2018-12-11",
     "categories": [],
-    "preview": "posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/table.png",
-    "last_modified": "2020-08-28T18:14:15-04:00",
+    "preview": "posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/table2.png",
+    "last_modified": "2020-08-29T06:10:56-04:00",
     "input_file": {},
-    "preview_width": 894,
-    "preview_height": 258
+    "preview_width": 1010,
+    "preview_height": 319
   },
   {
     "path": "posts/welcome/",
@@ -29,8 +47,10 @@
     ],
     "date": "2018-11-05",
     "categories": [],
-    "preview": "posts/welcome/pipes2.jpg",
-    "last_modified": "2020-08-27T22:11:05-04:00",
-    "input_file": {}
+    "preview": "posts/welcome/tidyverse_celestial.png",
+    "last_modified": "2020-08-29T06:08:29-04:00",
+    "input_file": {},
+    "preview_width": 2048,
+    "preview_height": 2048
   }
 ]
