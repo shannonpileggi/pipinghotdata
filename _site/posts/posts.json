@@ -12,7 +12,7 @@
     "date": "2020-09-07",
     "categories": [],
     "preview": "posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown/introducing.PNG",
-    "last_modified": "2020-09-07T06:40:22-04:00",
+    "last_modified": "2020-09-07T07:05:02-04:00",
     "input_file": {},
     "preview_width": 473,
     "preview_height": 371
@@ -30,15 +30,15 @@
     "date": "2020-08-30",
     "categories": [],
     "preview": "posts/2020-08-30-a-job-interview-presentation-inspired-by-the-r-community/welcome_to_rstats_twitter.png",
-    "last_modified": "2020-09-07T06:38:55-04:00",
+    "last_modified": "2020-09-07T07:06:27-04:00",
     "input_file": {},
     "preview_width": 2009,
     "preview_height": 1942
   },
   {
     "path": "posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/",
-    "title": "Feature engineering: 4 approaches to extracting title from name with regular expressions in R",
-    "description": "Exploring stringr::str_* functions",
+    "title": "Feature engineering 4 approaches to extracting title from name with regular expressions in R",
+    "description": "Exploring stringr functions",
     "author": [
       {
         "name": "Shannon Pileggi",
@@ -48,7 +48,7 @@
     "date": "2018-12-11",
     "categories": [],
     "preview": "posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/table2.png",
-    "last_modified": "2020-08-29T06:10:56-04:00",
+    "last_modified": "2020-09-07T07:21:10-04:00",
     "input_file": {},
     "preview_width": 1010,
     "preview_height": 319
@@ -66,7 +66,7 @@
     "date": "2018-11-05",
     "categories": [],
     "preview": "posts/welcome/tidyverse_celestial.png",
-    "last_modified": "2020-08-29T06:08:29-04:00",
+    "last_modified": "2020-09-07T07:09:30-04:00",
     "input_file": {},
     "preview_width": 2048,
     "preview_height": 2048

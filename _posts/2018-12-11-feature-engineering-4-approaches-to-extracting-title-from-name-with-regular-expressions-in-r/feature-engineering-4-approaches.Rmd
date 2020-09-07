@@ -1,9 +1,10 @@
 ---
-title: "Feature engineering: 4 approaches to extracting title from name with regular expressions in R"
+title: "Feature engineering 4 approaches to extracting title from name with regular expressions in R"
 description: |
-  Exploring stringr::str_* functions
+  Exploring stringr functions
 author:
   - name: Shannon Pileggi 
+base_url: https://www.pipinghotdata.com/
 date: 12-11-2018
 preview: table2.png
 output:

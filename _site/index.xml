@@ -27,10 +27,10 @@
       <media:content url="www.pipinghotdata.com/posts/2020-08-30-a-job-interview-presentation-inspired-by-the-r-community/welcome_to_rstats_twitter.png" medium="image" type="image/png" width="2009" height="1942"/>
     </item>
     <item>
-      <title>Feature engineering: 4 approaches to extracting title from name with regular expressions in R</title>
+      <title>Feature engineering 4 approaches to extracting title from name with regular expressions in R</title>
       <dc:creator>Shannon Pileggi</dc:creator>
       <link>www.pipinghotdata.com/posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r</link>
-      <description>Exploring stringr::str_* functions</description>
+      <description>Exploring stringr functions</description>
       <guid>www.pipinghotdata.com/posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r</guid>
       <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       <media:content url="www.pipinghotdata.com/posts/2018-12-11-feature-engineering-4-approaches-to-extracting-title-from-name-with-regular-expressions-in-r/table2.png" medium="image" type="image/png" width="1010" height="319"/>

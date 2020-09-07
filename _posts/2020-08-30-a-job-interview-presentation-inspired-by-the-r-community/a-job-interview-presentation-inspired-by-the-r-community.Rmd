@@ -4,6 +4,7 @@ description: |
   How #tidytuesday and twitter helped me secure a job offer
 author:
   - name: Shannon Pileggi
+base_url: https://www.pipinghotdata.com/
 date: 08-30-2020
 preview: welcome_to_rstats_twitter.png
 output:

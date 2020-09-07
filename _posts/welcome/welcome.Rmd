@@ -5,6 +5,7 @@ description: |
 author:
   - name: Shannon Pileggi 
     url: www.pipinghotdata.com
+base_url: https://www.pipinghotdata.com/
 date: 11-05-2018
 preview: tidyverse_celestial.png
 output:

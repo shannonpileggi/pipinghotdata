@@ -4,6 +4,7 @@ description: |
   Gettin' giffy wit it.
 author:
   - name: Shannon Pileggi
+base_url: https://www.pipinghotdata.com/
 date: 09-07-2020
 preview: introducing.PNG
 output:
