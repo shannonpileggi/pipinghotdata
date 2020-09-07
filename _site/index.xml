@@ -7,7 +7,16 @@
     <description>Data science demos, deliberations, and discoveries
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Introducing the RStudio IDE and R Markdown</title>
+      <dc:creator>Shannon Pileggi</dc:creator>
+      <link>www.pipinghotdata.com/posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown</link>
+      <description>Gettin' giffy wit it.</description>
+      <guid>www.pipinghotdata.com/posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown</guid>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="www.pipinghotdata.com/posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown/introducing.PNG" medium="image" type="image/png" width="473" height="371"/>
+    </item>
     <item>
       <title>A job interview presentation inspired by the R community</title>
       <dc:creator>Shannon Pileggi</dc:creator>

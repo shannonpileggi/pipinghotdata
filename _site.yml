@@ -27,4 +27,6 @@ rss:
 collections:
   posts:
       share: [twitter, linkedin]
-      citations: false
+      citations: true
+      subscribe: _subscribe.html
+      disqus: piping-hot-data
